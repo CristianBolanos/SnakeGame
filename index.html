@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="img/serpiente.webp" type="image/x-icon">
+</head>
+
+<body>
+    <div class="game-wrapper">
+        <div class="game-container">
+            <div class="game-header">
+                <div class="title-container">
+                    <img src="img/serpiente.webp" alt="Snake icon left" class="snake-icon snake-left">
+                    <h1 class="game-title">Snake Game</h1>
+                    <img src="img/serpiente.webp" alt="Snake icon right" class="snake-icon snake-right">
+                </div>
+                <div id="score">Score: 0</div>   
+            </div>
+            <div class="canvas-container">
+                <canvas id="gameCanvas"></canvas>
+            </div>
+            <div class="button-container">
+                <button id="pauseButton" aria-label="Pause">⏯️</button>
+                <button id="soundButton" aria-label="Toggle Sound">🔊</button>
+                <button id="instructionsButton" aria-label="Instructions">❓</button>
+            </div>
+            <div id="message"></div>
+            <div id="touch-controls">
+                <div class="d-pad">
+                    <button id="up" class="direction-btn">↑</button>
+                    <button id="left" class="direction-btn">←</button>
+                    <button id="right" class="direction-btn">→</button>
+                    <button id="down" class="direction-btn">↓</button>
+                </div>
+            </div>
+
+            <div id="scoreHistoryContainer">
+                <h2>Top Scores</h2>
+                <div id="scoreHistory"></div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- sounds/eat.mp3 -->
+    <audio id="eatSound" src="sounds/eat.mp3" preload="auto"></audio>
+    <audio id="crashSound" src="sounds/crash.mp3" preload="auto"></audio>
+    <audio id="startSound" src="sounds/start.mp3" preload="auto"></audio>
+
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Instrucciones del Juego</h2>
+            <ul>
+                <li>Usa las flechas del teclado o los botones en pantalla para mover la serpiente.</li>
+                <li>Come la comida (cuadrados rojos) para crecer y ganar puntos.</li>
+                <li>Evita chocar contra los bordes o contra ti mismo.</li>
+                <li>Pausa(tecla espacio) el juego en cualquier momento con el botón de pausa.</li>
+                <li>Activa o desactiva el sonido con el botón de sonido.</li>
+            </ul>
+            <p>¡Buena suerte y diviértete!</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function isTouchDevice() {
+            return (('ontouchstart' in window) ||
+                (navigator.maxTouchPoints > 0) ||
+                (navigator.msMaxTouchPoints > 0));
+        }
+
+        if (isTouchDevice()) {
+            document.body.classList.add('touch-device');
+        }
+    </script>
+    <script>
+        function hideControlsOnDesktop() {
+            var touchControls = document.getElementById('touch-controls');
+            if (window.innerWidth > 768) {
+                touchControls.style.display = 'none';
+            } else {
+                touchControls.style.removeProperty('display');
+            }
+        }
+
+        // Run on page load
+        hideControlsOnDesktop();
+
+        // Run on window resize
+        window.addEventListener('resize', hideControlsOnDesktop);
+    </script>
+</body>
+
+</html>
