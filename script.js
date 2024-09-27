@@ -114,7 +114,6 @@ function gameOver() {
     playSound(crashSound);
     gameStarted = false;
     clearTimeout(gameLoop);
-    messageElement.textContent = 'Game Over - Press Space or Tap to Restart';
     pauseButton.innerHTML = '🔄';
     
     saveScore(score);
@@ -278,7 +277,8 @@ function init() {
     document.addEventListener('keydown', handleKeyDown);
     setupTouchControls();
     clearCanvas();
-    messageElement.textContent = 'Press Space, Tap Screen, or Use Arrow Keys to Start';
+    // Eliminamos la línea que establece el texto inicial del messageElement
+    // messageElement.textContent = 'Press Space, Tap Screen, or Use Arrow Keys to Start';
     pauseButton.addEventListener('click', togglePause);
     soundButton.addEventListener('click', toggleSound);
     instructionsButton.addEventListener('click', showInstructions);
