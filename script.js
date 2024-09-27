@@ -39,9 +39,10 @@ function drawGame() {
 
 function clearCanvas() {
     const baseColor = '#000000'; // Color negro original
-    const specialColor = '#330033'; // Color especial (púrpura oscuro)
+    const colorIndex = Math.floor(score / 10);
+    const colors = ['#330033', '#003333', '#333300', '#330000', '#003300']; // Añade más colores si lo deseas
     
-    ctx.fillStyle = score >= 10 ? specialColor : baseColor;
+    ctx.fillStyle = colorIndex > 0 ? colors[(colorIndex - 1) % colors.length] : baseColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
@@ -63,10 +64,11 @@ function moveSnake() {
 
 function drawSnake() {
     const baseColor = '#00ff00'; // Color verde original
-    const specialColor = '#ff00ff'; // Color especial (magenta)
+    const colorIndex = Math.floor(score / 10);
+    const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff0000', '#0000ff']; // Añade más colores si lo deseas
     
     snake.forEach((segment, index) => {
-        const color = score >= 10 ? specialColor : baseColor;
+        const color = colorIndex > 0 ? colors[(colorIndex - 1) % colors.length] : baseColor;
         ctx.fillStyle = color;
         ctx.fillRect(segment.x * tileSize, segment.y * tileSize, tileSize - 2, tileSize - 2);
         
@@ -114,7 +116,6 @@ function gameOver() {
     playSound(crashSound);
     gameStarted = false;
     clearTimeout(gameLoop);
-    messageElement.textContent = 'Game Over - Press Space or Tap to Restart';
     pauseButton.innerHTML = '🔄';
     
     saveScore(score);
@@ -130,8 +131,8 @@ function updateScore() {
     scoreElement.textContent = `Score: ${score}`;
     console.log('Score updated:', score); // Para depuración
     
-    // Verifica si el puntaje acaba de llegar a 10 para cambiar los colores
-    if (score === 10) {
+    // Verifica si el puntaje es múltiplo de 10 para cambiar los colores
+    if (score % 10 === 0) {
         clearCanvas();
         drawSnake();
         drawFood();
@@ -278,7 +279,8 @@ function init() {
     document.addEventListener('keydown', handleKeyDown);
     setupTouchControls();
     clearCanvas();
-    messageElement.textContent = 'Press Space, Tap Screen, or Use Arrow Keys to Start';
+    // Eliminamos la línea que establece el texto inicial del messageElement
+    // messageElement.textContent = 'Press Space, Tap Screen, or Use Arrow Keys to Start';
     pauseButton.addEventListener('click', togglePause);
     soundButton.addEventListener('click', toggleSound);
     instructionsButton.addEventListener('click', showInstructions);
